@@ -6,6 +6,7 @@ public class GameManager : MonoBehaviour
 {
     public SpriteRenderer bowl;
     public DogState dogState;
+    public GameObject[] botoes;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,5 +21,16 @@ public class GameManager : MonoBehaviour
             bowl.sprite = Resources.Load<Sprite>("Sprite/bowl");
             dogState.SetHungry(false);
         }
+    }
+
+    public void BotaoComida()
+    {
+        bowl.sprite = Resources.Load<Sprite>("Sprite/bowl");
+        dogState.SetHungry(false);
+    }
+
+    public void BotaoBanho()
+    {
+        dogState.setDirty(false);
     }
 }
