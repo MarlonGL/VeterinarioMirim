@@ -5,11 +5,13 @@ using UnityEngine;
 public class Baloon : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject hungry;
-    public GameObject angry;
+    public SpriteRenderer hungry;
+    public SpriteRenderer angry;
+
     void Start()
     {
-        
+        hungry.enabled = false;
+        angry.enabled = false;
     }
 
     // Update is called once per frame
@@ -20,16 +22,16 @@ public class Baloon : MonoBehaviour
 
     public void setSpriteHungry()
     {
-        hungry.SetActive(true);
+        hungry.enabled = true;
     }
     public void setSpriteAngry()
     {
-        angry.SetActive(true);
+        angry.enabled = true;
     }
 
     public void NoSprite()
     {
-        hungry.SetActive(false);
-        angry.SetActive(false);
+        hungry.enabled = false;
+        angry.enabled = false;
     }
 }

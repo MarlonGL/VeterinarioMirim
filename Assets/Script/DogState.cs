@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DogState : MonoBehaviour
 {
-    bool _hungry, _happy, _dirty;
+    bool _hungry, _sad, _dirty, _pulga;
     [SerializeField]
     Animator _myAnimator;
     [SerializeField]
@@ -15,74 +15,142 @@ public class DogState : MonoBehaviour
 
     public GameObject baloonSprite;
 
+    List<State> badStates = new List<State>();
+
+    int _happiness = 0; //progressão do player
+
     // Start is called before the first frame update
     void Start()
     {
-        //aleatoriedade
         _hungry = true;
-        _happy = false;
+        _sad = false;
         _dirty = false;
+        _pulga = true;
+        
+        State sad = new State(2);
+        State hungry = new State(3);
+
+        badStates.Add(hungry);
+        badStates.Add(sad);
+        int highest;
+        for (int i = 0; i < badStates.Count; i++)
+        {
+
+        }
+        
+
+
+
+        /*states[0] = _hungry;
+        states[1] = _sad;
+        states[2] = _dirty;
+        states[3] = _pulga;*/
+        //aleatoriedade
     }
 
-    // Update is called once per frame
     //animacoes
     //happyAnim - happy
     void Update()
     {
-        if(!_hungry)
+        
+        if(_hungry)
         {
-            _myUrgentBaloon.GetComponent<Baloon>().NoSprite();
-            _myUrgentBaloon.SetActive(false);
+            //_myUrgentBaloon.GetComponent<Baloon>().NoSprite();
+            //_myUrgentBaloon.SetActive(false);
+            BaloonOn();
+            _myUrgentBaloon.GetComponent<Baloon>().setSpriteHungry();
             //_myAnimator.Play("Happy");
             //_myAnimator.SetTrigger("happyAnim");
 
         }
-        else
-        {
-            _myUrgentBaloon.SetActive(true);
-            _myUrgentBaloon.GetComponent<Baloon>().setSpriteHungry();
-
-        }
-
-        if(wrongMove)
+        
+        /*if(wrongMove)
         {
             _myAnimator.Play("Angry");
-            _myUrgentBaloon.SetActive(true);
+            //_myUrgentBaloon.SetActive(true);
+            BaloonOn();
             _myUrgentBaloon.GetComponent<Baloon>().setSpriteAngry();
             Invoke("ResertWrongMove", 3);
-        }
+        }*/
+    }
+
+    void WrongMove()
+    {
+        _myAnimator.Play("Angry");
+        BaloonOn();
+        _myUrgentBaloon.GetComponent<Baloon>().setSpriteAngry();
+        Invoke("ResertWrongMove", 1.2f);
     }
 
     public void SetHungry(bool p_hugry)
     {
+        if (_hungry)
+        {
+            ResetBaloon();
+        }
         _hungry = p_hugry;
-        _myAnimator.Play("Happy");
+        if (!_hungry)
+        {
+            _myAnimator.Play("Happy");
+        }
     }
 
-    public void setHappy(bool p_happy)
+    public void SetSad(bool p_sad)
     {
-        _happy = p_happy;
+        _sad = p_sad;
+        if (!_sad)
+        {
+            _myAnimator.Play("Happy");
+        }
     }
 
-    public void setDirty(bool p_dirty)
+    public void SetDirty(bool p_dirty)
     {
         if (p_dirty == _dirty)
         {
             wrongMove = true;
+            WrongMove();
+
         }
         else
         {
-            _myUrgentBaloon.GetComponent<Baloon>().NoSprite();
-            _myUrgentBaloon.SetActive(false);
+            ResetBaloon();
         }
         _dirty = p_dirty;
        
     }
 
+    public void SetPulga(bool p_pulga)
+    {
+        if(p_pulga == _pulga)
+        {
+            wrongMove = true;
+            WrongMove();
+        }
+        else
+        {
+            //_myUrgentBaloon.GetComponent<Baloon>().NoSprite();
+            //_myUrgentBaloon.SetActive(false);
+            ResetBaloon();
+            _myAnimator.Play("Happy");
+        }
+        _pulga = p_pulga;
+    }
+
+    void ResetBaloon()
+    {
+        _myUrgentBaloon.GetComponent<Baloon>().NoSprite();
+        _myUrgentBaloon.GetComponent<SpriteRenderer>().enabled = false;
+    }
+
+    void BaloonOn()
+    {
+        _myUrgentBaloon.GetComponent<SpriteRenderer>().enabled = true;
+    }
+
     void ResertWrongMove()
     {
         wrongMove = false;
-        _myUrgentBaloon.GetComponent<Baloon>().NoSprite();
-        _myUrgentBaloon.SetActive(false);
+        ResetBaloon();
     }
 }

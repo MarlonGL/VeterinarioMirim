@@ -31,6 +31,14 @@ public class GameManager : MonoBehaviour
 
     public void BotaoBanho()
     {
-        dogState.setDirty(false);
+        dogState.SetDirty(false);
+    }
+    public void BotarBrincar()
+    {
+        dogState.SetSad(false);
+    }
+    public void BotaoPulga()
+    {
+        dogState.SetPulga(false);
     }
 }
