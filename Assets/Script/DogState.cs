@@ -76,7 +76,7 @@ public class DogState : MonoBehaviour
 
     void WrongMove()
     {
-        _myAnimator.Play("Angry");
+        PlayAnimation("Angry");
         BaloonOn();
         _myUrgentBaloon.GetComponent<Baloon>().setSpriteAngry();
         Invoke("ResertWrongMove", 1.2f);
@@ -91,7 +91,7 @@ public class DogState : MonoBehaviour
         _hungry = p_hugry;
         if (!_hungry)
         {
-            _myAnimator.Play("Happy");
+            PlayAnimation("Happy");
         }
     }
 
@@ -100,7 +100,7 @@ public class DogState : MonoBehaviour
         _sad = p_sad;
         if (!_sad)
         {
-            _myAnimator.Play("Happy");
+            PlayAnimation("Happy");
         }
     }
 
@@ -132,7 +132,7 @@ public class DogState : MonoBehaviour
             //_myUrgentBaloon.GetComponent<Baloon>().NoSprite();
             //_myUrgentBaloon.SetActive(false);
             ResetBaloon();
-            _myAnimator.Play("Happy");
+            PlayAnimation("Happy");
         }
         _pulga = p_pulga;
     }
@@ -152,5 +152,10 @@ public class DogState : MonoBehaviour
     {
         wrongMove = false;
         ResetBaloon();
+    }
+
+    void PlayAnimation(string name)
+    {
+        _myAnimator.Play(name);
     }
 }
