@@ -9,6 +9,10 @@ public class DogState : MonoBehaviour
     public Animator _myAnimator;
     
     public GameObject _myUrgentBaloon;
+
+    public SpriteRenderer _mudStain;
+
+    public SpriteRenderer _fleaStain;
     
     //GameObject _myBaloon;
     bool wrongMove = false;
@@ -52,6 +56,24 @@ public class DogState : MonoBehaviour
         {
             Debug.Log(_dogStates[i].nome + " "+ _dogStates[i].peso);
         }
+
+        if (checkState("Dirty"))
+        {
+            _mudStain.enabled = true;
+        }
+        if (checkState("Pulga"))
+        {
+            _fleaStain.enabled = true;
+        }
+        if (checkState("Sad"))
+        {
+            PlayAnimation("Sad");
+            _myAnimator.SetBool("IdleSad", true);
+        }
+        if (checkState("Hungry"))
+        {
+            //play hmmmmm sound - som de fome
+        }
     }
     void Update()
     {
@@ -69,21 +91,27 @@ public class DogState : MonoBehaviour
             {
                 case "Hungry":
                     showHungry();
+                    PlayAnimation("Angry");
                     break;
                 case "Sad":
                     showSad();
+                    PlayAnimation("Angry");
                     break;
                 case "Dirty":
                     showDirty();
+                    PlayAnimation("Angry");
                     break;
                 case "Pulga":
                     showPulga();
+                    PlayAnimation("Angry");
                     break;
                 default:
                     break;
             }
             erros = 0;
         }
+
+        
         /*if(_hungry)
         {
             //_myUrgentBaloon.GetComponent<Baloon>().NoSprite();
@@ -105,6 +133,8 @@ public class DogState : MonoBehaviour
         }*/
     }
    
+    
+
     void showHungry()
     {
         BaloonOn();
@@ -125,6 +155,7 @@ public class DogState : MonoBehaviour
         BaloonOn();
         Invoke("ResertWrongMove", 2f);
     }
+
 
     void showPulga()
     {
@@ -161,68 +192,32 @@ public class DogState : MonoBehaviour
             }
         }
     }
-    public void SetHungry(bool p_hugry)
+
+    public void SetState(string p_state)
     {
-        if (!checkState("Hungry"))
+        if (!checkState(p_state))
         {
             erros++;
         }
-        else if (checkState("Hungry"))
+        else if (checkState(p_state))
         {
             PlayAnimation("Happy");
-            removeState("Hungry");
+            removeState(p_state);
+            if (p_state == "Dirty")
+            {
+                _mudStain.enabled = false;
+            }
+            else if(p_state == "Pulga")
+            {
+                _fleaStain.enabled = false;
+            }
+            else if(p_state == "Sad")
+            {
+                _myAnimator.SetBool("IdleSad", false);
+            }
         }
     }
-
-    public void SetSad(bool p_sad)
-    {
-        if (!checkState("Sad"))
-        {
-            erros++;
-        }
-        else if (checkState("Sad"))
-        {
-            PlayAnimation("Happy");
-            removeState("Sad");
-        }
-    }
-
-    public void SetDirty(bool p_dirty)
-    {
-        if (!checkState("Dirty"))
-        {
-            erros++;
-        }
-        else if (checkState("Dirty"))
-        {
-            PlayAnimation("Happy");
-            removeState("Dirty");
-        }
-
-        /*if (p_dirty == _dirty)
-        {
-            wrongMove = true;
-            WrongMove();
-        }
-        else
-        {
-            ResetBaloon();
-        }*/
-    }
-
-    public void SetPulga(bool p_pulga)
-    {
-        if (!checkState("Pulga"))
-        {
-            erros++;
-        }
-        else if (checkState("Pulga"))
-        {
-            PlayAnimation("Happy");
-            removeState("Pulga");
-        }
-    }
-
+ 
     void ResetBaloon()
     {
         _myUrgentBaloon.GetComponent<Baloon>().NoSprite();

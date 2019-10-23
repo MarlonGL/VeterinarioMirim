@@ -16,29 +16,32 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            bowl.sprite = Resources.Load<Sprite>("Sprite/bowl");
-            dogState.SetHungry(false);
-        }
+       
     }
 
     public void BotaoComida()
     {
         bowl.sprite = Resources.Load<Sprite>("Sprite/bowl");
-        dogState.SetHungry(false);
+        //dogState.SetHungry(false);
+        dogState.SetState("Hungry");
     }
 
     public void BotaoBanho()
     {
-        dogState.SetDirty(false);
+        //dogState.SetDirty(false);
+        dogState.SetState("Dirty");
+
     }
     public void BotarBrincar()
     {
-        dogState.SetSad(false);
+        //dogState.SetSad(false);
+        dogState.SetState("Sad");
+
     }
     public void BotaoPulga()
     {
-        dogState.SetPulga(false);
+        //dogState.SetPulga(false);
+        dogState.SetState("Pulga");
+
     }
 }
