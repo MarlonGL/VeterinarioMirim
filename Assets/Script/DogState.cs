@@ -13,6 +13,8 @@ public class DogState : MonoBehaviour
     public SpriteRenderer _fleaStain;
 
     public FileSettings fileSettings;
+
+    public float happines = 0;
     
     //GameObject _myBaloon;
     bool wrongMove = false;
@@ -235,8 +237,20 @@ public class DogState : MonoBehaviour
         ResetBaloon();
     }
 
-    void PlayAnimation(string name)
+    void PlayAnimation(string p_name)
     {
-        _myAnimator.Play(name);
+        _myAnimator.Play(p_name);
+    }
+
+    public bool GetState(string p_name)
+    {
+        for (int i = 0; i < _dogStates.Count; i++)
+        {
+            if (_dogStates[i].nome == p_name)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

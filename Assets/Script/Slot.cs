@@ -7,7 +7,8 @@ public enum ItemType
 {
     SHOWER,
     FOOD,
-    PULGA
+    SPRAY,
+    HAND
 }
 
 public class Slot : MonoBehaviour, IDropHandler
