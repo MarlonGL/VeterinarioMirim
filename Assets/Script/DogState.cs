@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class DogState : MonoBehaviour
-{
-    bool _hungry, _sad, _dirty, _pulga;
-    
+{    
     public Animator _myAnimator;
     
     public GameObject _myUrgentBaloon;
@@ -13,6 +11,8 @@ public class DogState : MonoBehaviour
     public SpriteRenderer _mudStain;
 
     public SpriteRenderer _fleaStain;
+
+    public FileSettings fileSettings;
     
     //GameObject _myBaloon;
     bool wrongMove = false;
@@ -24,18 +24,13 @@ public class DogState : MonoBehaviour
 
     int _happiness = 0; //progressão do player
 
-    State sad = new State(2, "Sad");
-    State hungry = new State(3, "Hungry");
-    State dirty = new State(1, "Dirty");
+    State sad = new State(2, "Triste");
+    State hungry = new State(3, "Fome");
+    State dirty = new State(1, "Sujo");
     State pulga = new State(1, "Pulga");
     // Start is called before the first frame update
     void Start()
     {
-        _hungry = true;
-        _sad = false;
-        _dirty = false;
-        _pulga = true;
-        
         _badStates.Add(hungry);
         _badStates.Add(sad);
         _badStates.Add(dirty);
@@ -57,7 +52,9 @@ public class DogState : MonoBehaviour
             Debug.Log(_dogStates[i].nome + " "+ _dogStates[i].peso);
         }
 
-        if (checkState("Dirty"))
+        fileSettings.InitializeFile(_dogStates);
+
+        if (checkState("Sujo"))
         {
             _mudStain.enabled = true;
         }
@@ -65,15 +62,16 @@ public class DogState : MonoBehaviour
         {
             _fleaStain.enabled = true;
         }
-        if (checkState("Sad"))
+        if (checkState("Triste"))
         {
             PlayAnimation("Sad");
             _myAnimator.SetBool("IdleSad", true);
         }
-        if (checkState("Hungry"))
+        if (checkState("Fome"))
         {
             //play hmmmmm sound - som de fome
         }
+
     }
     void Update()
     {
@@ -89,15 +87,15 @@ public class DogState : MonoBehaviour
             }
             switch (temp.nome)
             {
-                case "Hungry":
+                case "Fome":
                     showHungry();
                     PlayAnimation("Angry");
                     break;
-                case "Sad":
+                case "Triste":
                     showSad();
                     PlayAnimation("Angry");
                     break;
-                case "Dirty":
+                case "Sujo":
                     showDirty();
                     PlayAnimation("Angry");
                     break;
@@ -182,12 +180,13 @@ public class DogState : MonoBehaviour
         return false;
     }
 
-    void removeState(string _state)
+    void RemoveState(string _state)
     {
         for (int i = 0; i < _dogStates.Count; i++)
         {
             if (_dogStates[i].nome == _state)
             {
+                fileSettings.SetToggled(i);
                 _dogStates.RemoveAt(i);
             }
         }
@@ -202,8 +201,8 @@ public class DogState : MonoBehaviour
         else if (checkState(p_state))
         {
             PlayAnimation("Happy");
-            removeState(p_state);
-            if (p_state == "Dirty")
+            RemoveState(p_state);
+            if (p_state == "Sujo")
             {
                 _mudStain.enabled = false;
             }
@@ -211,7 +210,7 @@ public class DogState : MonoBehaviour
             {
                 _fleaStain.enabled = false;
             }
-            else if(p_state == "Sad")
+            else if(p_state == "Triste")
             {
                 _myAnimator.SetBool("IdleSad", false);
             }

@@ -23,19 +23,19 @@ public class GameManager : MonoBehaviour
     {
         bowl.sprite = Resources.Load<Sprite>("Sprite/bowl");
         //dogState.SetHungry(false);
-        dogState.SetState("Hungry");
+        dogState.SetState("Fome");
     }
 
     public void BotaoBanho()
     {
         //dogState.SetDirty(false);
-        dogState.SetState("Dirty");
+        dogState.SetState("Sujo");
 
     }
     public void BotarBrincar()
     {
         //dogState.SetSad(false);
-        dogState.SetState("Sad");
+        dogState.SetState("Triste");
 
     }
     public void BotaoPulga()
