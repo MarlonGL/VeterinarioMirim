@@ -33,46 +33,9 @@ public class DogState : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        _badStates.Add(hungry);
-        _badStates.Add(sad);
-        _badStates.Add(dirty);
-        _badStates.Add(pulga);
+       
 
-        int numBadStates = 2;
-        int r;
-        int pesito;
-        for (int i = 0; i < numBadStates; i++)
-        {
-            r = Random.Range(0, _badStates.Count);
-            pesito = Random.Range(1, 4);
-            _badStates[r].peso = pesito;
-            _dogStates.Add(_badStates[r]);
-            _badStates.Remove(_badStates[r]);
-        }
-        for (int i = 0; i < _dogStates.Count; i++)
-        {
-            Debug.Log(_dogStates[i].nome + " "+ _dogStates[i].peso);
-        }
-
-        fileSettings.InitializeFile(_dogStates);
-
-        if (checkState("Sujo"))
-        {
-            _mudStain.enabled = true;
-        }
-        if (checkState("Pulga"))
-        {
-            _fleaStain.enabled = true;
-        }
-        if (checkState("Triste"))
-        {
-            PlayAnimation("Sad");
-            _myAnimator.SetBool("IdleSad", true);
-        }
-        if (checkState("Fome"))
-        {
-            //play hmmmmm sound - som de fome
-        }
+        InicializarStatus();
 
     }
     void Update()
@@ -133,7 +96,61 @@ public class DogState : MonoBehaviour
         }*/
     }
    
-    
+    public void InicializarStatus()
+    {
+        _myAnimator.SetBool("IdleSad", false);
+        _mudStain.enabled = false;
+        _fleaStain.enabled = false;
+
+        _badStates = new List<State>();
+        _dogStates = new List<State>();
+
+        _badStates.Add(hungry);
+        _badStates.Add(sad);
+        _badStates.Add(dirty);
+        _badStates.Add(pulga);
+        int numBadStates = 2;
+        int r;
+        int pesito;
+        for (int i = 0; i < numBadStates; i++)
+        {
+            r = Random.Range(0, _badStates.Count);
+            pesito = Random.Range(1, 4);
+            _badStates[r].peso = pesito;
+            _dogStates.Add(_badStates[r]);
+            _badStates.Remove(_badStates[r]);
+        }
+        for (int i = 0; i < _dogStates.Count; i++)
+        {
+            Debug.Log(_dogStates[i].nome + " " + _dogStates[i].peso);
+        }
+
+        fileSettings.InitializeFile(_dogStates);
+
+        if (checkState("Sujo"))
+        {
+            _mudStain.enabled = true;
+        }
+        if (checkState("Pulga"))
+        {
+            _fleaStain.enabled = true;
+        }
+        if (checkState("Triste"))
+        {
+            PlayAnimation("Sad");
+            _myAnimator.SetBool("IdleSad", true);
+            Debug.Log("Checou triste");
+        }
+        else
+        {
+            PlayAnimation("Idle");
+
+        }
+        if (checkState("Fome"))
+        {
+            //play hmmmmm sound - som de fome
+        }
+    }
 
     void showHungry()
     {
