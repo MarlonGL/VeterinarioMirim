@@ -1,17 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
+    
 public class GameManager : MonoBehaviour
 {
     public SpriteRenderer bowl;
     public DogState dogState;
     public GameObject[] botoes;
     public OnMouseOverObject onMouseOverShower;
-    public OnMouseOverObject onMouseOverSpray;
+    public OnMouseOverObject onMouseoverFood;
+  
     public GameObject sprayCloud;
     public GameObject water;
     int nGotas;
+
 
     //medical
     public GameObject vacB, castB, remB, vetB;
@@ -67,6 +70,16 @@ public class GameManager : MonoBehaviour
         {
             sprayCloud.SetActive(false);
         }
+
+        if (onMouseoverFood.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.FOOD && dogState.GetState("Fome"))
+        {
+
+            Debug.Log("Chegou no pote");
+            BotaoComida();
+
+
+        }
+       
     }
 
     public void BotaoComida()
@@ -101,5 +114,31 @@ public class GameManager : MonoBehaviour
         castB.SetActive(mAtivos);
         remB.SetActive(mAtivos);
         vetB.SetActive(mAtivos);
+    }
+
+    public void BotaoVacina()
+    {
+        dogState.SetMedicalState("Vacinação");
+    }
+
+    public void BotaoVeterinario()
+    {
+        dogState.SetMedicalState("Veterinário");
+    }
+
+    public void BotaoCastracao()
+    {
+        dogState.SetMedicalState("Castração");
+    }
+
+    public void BotaoRemedios()
+    {
+        dogState.SetMedicalState("Remédios");
+    }
+
+    public void BotaoCorrente()
+    {
+        Debug.Log("botao corrente");
+        dogState.SetState("Acorrentado");
     }
 }

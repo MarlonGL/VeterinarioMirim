@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DogState : MonoBehaviour
 {    
@@ -17,7 +18,10 @@ public class DogState : MonoBehaviour
     public FileSettings fileSettings;
 
     public float happines = 0;
-    
+
+    public Button chainB;
+
+
     //GameObject _myBaloon;
     bool wrongMove = false;
     int erros = 0;
@@ -27,6 +31,7 @@ public class DogState : MonoBehaviour
     List<State> _badStates;
     List<State> _dogStates;
     List<State> _dogMedStates;
+    List<State> _dogFixedMstates;
 
     int _happiness = 0; //progressão do player
 
@@ -128,6 +133,7 @@ public class DogState : MonoBehaviour
         if (checkState("Acorrentado"))
         {
             _chain.enabled = true;
+            chainB.enabled = true;
         }
         if (checkState("Sujo"))
         {
@@ -160,6 +166,7 @@ public class DogState : MonoBehaviour
         //listas
         _medicalStates = new List<State>();
         _dogMedStates = new List<State>();
+        _dogFixedMstates = new List<State>();
         //stados adicionados
         _medicalStates.Add(castracao);
         _medicalStates.Add(veterinario);
@@ -173,7 +180,8 @@ public class DogState : MonoBehaviour
         {
             r = Random.Range(0, _medicalStates.Count);
             _dogMedStates.Add(_medicalStates[r]);
-            _medicalStates.RemoveAt(i);
+            _dogFixedMstates.Add(_medicalStates[r]);
+            _medicalStates.RemoveAt(r);
         }
         for (int i = 0; i < _dogMedStates.Count; i++)
         {
@@ -230,18 +238,50 @@ public class DogState : MonoBehaviour
         return false;
     }
 
+    bool checkMedicalState(string _state)
+    {
+        for (int i = 0; i < _dogMedStates.Count; i++)
+        {
+            if (_dogMedStates[i].nome == _state)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    int checkMstatePos(string _state)
+    {
+        for (int i = 0; i < _dogFixedMstates.Count; i++)
+        {
+            if (_dogFixedMstates[i].nome == _state)
+            {
+                //Debug.Log(_dogMedStates[i].nome + " vs " + _state + " i = " + i);
+                return i;
+            }
+        }
+        return 100;
+    }
     void RemoveState(string _state)
     {
         for (int i = 0; i < _dogStates.Count; i++)
         {
             if (_dogStates[i].nome == _state)
             {
-                fileSettings.SetToggled(i);
+                //fileSettings.SetToggled(i);
                 _dogStates.RemoveAt(i);
             }
         }
     }
-
+    void RemoveMedicalState(string _state)
+    {
+        for (int i = 0; i < _dogMedStates.Count; i++)
+        {
+            if (_dogMedStates[i].nome == _state)
+            {
+                _dogMedStates.RemoveAt(i);
+            }
+        }
+    }
     public void SetState(string p_state)
     {
         if (!checkState(p_state))
@@ -264,9 +304,31 @@ public class DogState : MonoBehaviour
             {
                 _myAnimator.SetBool("IdleSad", false);
             }
+            else if(p_state == "Acorrentado")
+            {
+                _chain.enabled = false;
+                chainB.enabled = false;
+            }
         }
     }
- 
+    public void SetMedicalState(string p_state)
+    {
+        if (!checkMedicalState(p_state))
+        {
+            //erros++
+            //desabilitar botao da acao
+            Debug.Log("Nao tem essa necessidade");
+        }
+        else if(checkMedicalState(p_state))
+        {
+            PlayAnimation("Happy");
+            int p = checkMstatePos(p_state);
+            fileSettings.SetLine(p);
+            RemoveMedicalState(p_state);
+            
+        }
+
+    }
     void ResetBaloon()
     {
         _myUrgentBaloon.GetComponent<Baloon>().NoSprite();
