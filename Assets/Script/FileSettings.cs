@@ -12,10 +12,10 @@ public class FileSettings : MonoBehaviour
     public void InitializeFile(List<State> p_stateList)
     {
 
-        for(int i = 0; i < stateToggle.Count; i++)
+        /*for(int i = 0; i < stateToggle.Count; i++)
         {
             stateToggle[i].interactable = false;
-        }
+        }*/
         dogName.text = "Doggo";
         for(int i = 0; i < p_stateList.Count; i++)
         {
@@ -26,7 +26,16 @@ public class FileSettings : MonoBehaviour
 
     public void SetToggled(int p_index)
     {
-        stateToggle[p_index].isOn = true;
-        stateToggle.RemoveAt(p_index);
+        /*stateToggle[p_index].isOn = true;
+        stateToggle.RemoveAt(p_index);*/
+    }
+
+    public void resetFile()
+    {
+        for (int i = 0; i < stateToggle.Count; i++)
+        {
+            /*stateToggle[i].interactable = false;
+            stateToggle[i].isOn = false;*/
+        }
     }
 }

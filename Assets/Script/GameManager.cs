@@ -10,6 +10,13 @@ public class GameManager : MonoBehaviour
     public OnMouseOverObject onMouseOverShower;
     public OnMouseOverObject onMouseOverSpray;
     public GameObject sprayCloud;
+    public GameObject water;
+    int nGotas;
+
+    //medical
+    public GameObject vacB, castB, remB, vetB;
+    bool mAtivos = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,13 +28,19 @@ public class GameManager : MonoBehaviour
     {
         if(onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.SHOWER && dogState.GetState("Sujo"))
         {
+            water.SetActive(true);
             float __alpha = dogState._mudStain.color.a;
             __alpha -= Time.deltaTime;
             dogState._mudStain.color = new Color(dogState._mudStain.color.r, dogState._mudStain.color.g, dogState._mudStain.color.b, __alpha);
             if(__alpha <= 0)
             {
                 dogState.SetState("Sujo");
+                water.SetActive(false);
             }
+        }
+        else
+        {
+            water.SetActive(false);
         }
         if (onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.HAND && dogState.GetState("Triste"))
         {
@@ -79,5 +92,14 @@ public class GameManager : MonoBehaviour
     {
         //dogState.SetPulga(false);
         dogState.SetState("Pulga");
+    }
+
+    public void BotaoMedicalTab()
+    {
+        mAtivos = !mAtivos;
+        vacB.SetActive(mAtivos);
+        castB.SetActive(mAtivos);
+        remB.SetActive(mAtivos);
+        vetB.SetActive(mAtivos);
     }
 }

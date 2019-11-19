@@ -12,6 +12,8 @@ public class DogState : MonoBehaviour
 
     public SpriteRenderer _fleaStain;
 
+    public SpriteRenderer _chain;
+
     public FileSettings fileSettings;
 
     public float happines = 0;
@@ -21,8 +23,10 @@ public class DogState : MonoBehaviour
     int erros = 0;
     public GameObject baloonSprite;
 
-    List<State> _badStates = new List<State>();
-    List<State> _dogStates = new List<State>();
+    List<State> _medicalStates;
+    List<State> _badStates;
+    List<State> _dogStates;
+    List<State> _dogMedStates;
 
     int _happiness = 0; //progressão do player
 
@@ -30,7 +34,20 @@ public class DogState : MonoBehaviour
     State hungry = new State(3, "Fome");
     State dirty = new State(1, "Sujo");
     State pulga = new State(1, "Pulga");
-    // Start is called before the first frame update
+    State acorrentado = new State(1, "Acorrentado");
+
+
+    //estados médicos
+    State castracao = new State(0, "Castração");
+    //nao pode castrar sem resolvido os os estados ruins do cachorro
+    State vacina = new State(0, "Vacinação");
+    //se nunca teve dono, sempre na rua
+    State veterinario = new State(0, "Veterinário");
+    //se machucado
+    State remedios = new State(0, "Remédios");
+    //se doente
+
+
     void Start()
     {
        
@@ -73,27 +90,6 @@ public class DogState : MonoBehaviour
             }
             erros = 0;
         }
-
-        
-        /*if(_hungry)
-        {
-            //_myUrgentBaloon.GetComponent<Baloon>().NoSprite();
-            //_myUrgentBaloon.SetActive(false);
-            BaloonOn();
-            _myUrgentBaloon.GetComponent<Baloon>().setSpriteHungry();
-            //_myAnimator.Play("Happy");
-            //_myAnimator.SetTrigger("happyAnim");
-
-        }*/
-        
-        /*if(wrongMove)
-        {
-            _myAnimator.Play("Angry");
-            //_myUrgentBaloon.SetActive(true);
-            BaloonOn();
-            _myUrgentBaloon.GetComponent<Baloon>().setSpriteAngry();
-            Invoke("ResertWrongMove", 3);
-        }*/
     }
    
     public void InicializarStatus()
@@ -101,15 +97,18 @@ public class DogState : MonoBehaviour
         _myAnimator.SetBool("IdleSad", false);
         _mudStain.enabled = false;
         _fleaStain.enabled = false;
-
+        _chain.enabled = false;
+        
         _badStates = new List<State>();
         _dogStates = new List<State>();
-
+        
         _badStates.Add(hungry);
         _badStates.Add(sad);
         _badStates.Add(dirty);
         _badStates.Add(pulga);
-        int numBadStates = 2;
+        _badStates.Add(acorrentado);
+
+        int numBadStates = 3;
         int r;
         int pesito;
         for (int i = 0; i < numBadStates; i++)
@@ -124,9 +123,12 @@ public class DogState : MonoBehaviour
         {
             Debug.Log(_dogStates[i].nome + " " + _dogStates[i].peso);
         }
+        
 
-        fileSettings.InitializeFile(_dogStates);
-
+        if (checkState("Acorrentado"))
+        {
+            _chain.enabled = true;
+        }
         if (checkState("Sujo"))
         {
             _mudStain.enabled = true;
@@ -150,6 +152,35 @@ public class DogState : MonoBehaviour
         {
             //play hmmmmm sound - som de fome
         }
+        StartMedicalStats();
+    }
+
+    void StartMedicalStats()
+    {
+        //listas
+        _medicalStates = new List<State>();
+        _dogMedStates = new List<State>();
+        //stados adicionados
+        _medicalStates.Add(castracao);
+        _medicalStates.Add(veterinario);
+        _medicalStates.Add(vacina);
+        _medicalStates.Add(remedios);
+
+        int numBadStates = 2;
+        int r;
+
+        for (int i = 0; i < numBadStates; i++)
+        {
+            r = Random.Range(0, _medicalStates.Count);
+            _dogMedStates.Add(_medicalStates[r]);
+            _medicalStates.RemoveAt(i);
+        }
+        for (int i = 0; i < _dogMedStates.Count; i++)
+        {
+            Debug.Log(_dogMedStates[i].nome + " medicStats");
+        }
+        fileSettings.resetFile();
+        fileSettings.InitializeFile(_dogMedStates);
     }
 
     void showHungry()
