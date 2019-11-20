@@ -226,7 +226,7 @@ public class DogState : MonoBehaviour
         _myUrgentBaloon.GetComponent<Baloon>().setSpriteAngry();
         Invoke("ResertWrongMove", 1.2f);
     }
-    bool checkState(string _state)
+    public bool checkState(string _state)
     {
         for (int i = 0; i < _dogStates.Count; i++)
         {
@@ -238,7 +238,7 @@ public class DogState : MonoBehaviour
         return false;
     }
 
-    bool checkMedicalState(string _state)
+    public bool checkMedicalState(string _state)
     {
         for (int i = 0; i < _dogMedStates.Count; i++)
         {
@@ -350,17 +350,5 @@ public class DogState : MonoBehaviour
     void PlayAnimation(string p_name)
     {
         _myAnimator.Play(p_name);
-    }
-
-    public bool GetState(string p_name)
-    {
-        for (int i = 0; i < _dogStates.Count; i++)
-        {
-            if (_dogStates[i].nome == p_name)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
     
 public class GameManager : MonoBehaviour
 {
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.SHOWER && dogState.GetState("Sujo"))
+        if(onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.SHOWER && dogState.checkState("Sujo"))
         {
             water.SetActive(true);
             float __alpha = dogState._mudStain.color.a;
@@ -45,7 +46,7 @@ public class GameManager : MonoBehaviour
         {
             water.SetActive(false);
         }
-        if (onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.HAND && dogState.GetState("Triste"))
+        if (onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.HAND && dogState.checkState("Triste"))
         {
             dogState.happines += Time.deltaTime;
             
@@ -54,7 +55,7 @@ public class GameManager : MonoBehaviour
                 dogState.SetState("Triste");
             }
         }
-        if (onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.SPRAY && dogState.GetState("Pulga"))
+        if (onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.SPRAY && dogState.checkState("Pulga"))
         {
             sprayCloud.SetActive(true);
             float __alpha = dogState._fleaStain.color.a;
@@ -71,7 +72,7 @@ public class GameManager : MonoBehaviour
             sprayCloud.SetActive(false);
         }
 
-        if (onMouseoverFood.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.FOOD && dogState.GetState("Fome"))
+        if (onMouseoverFood.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.FOOD && dogState.checkState("Fome"))
         {
 
             Debug.Log("Chegou no pote");
@@ -118,27 +119,63 @@ public class GameManager : MonoBehaviour
 
     public void BotaoVacina()
     {
-        dogState.SetMedicalState("Vacinação");
+        if (dogState.checkMedicalState("Vacinação"))
+        {
+            dogState.SetMedicalState("Vacinação");
+        }
+        else
+        {
+            vacB.SetActive(false);
+        }
+        
+
     }
 
     public void BotaoVeterinario()
     {
-        dogState.SetMedicalState("Veterinário");
+        if (dogState.checkMedicalState("Veterinário"))
+        {
+            dogState.SetMedicalState("Veterinário");
+        }
+        else
+        {
+            vetB.SetActive(false);
+        }
     }
 
     public void BotaoCastracao()
     {
-        dogState.SetMedicalState("Castração");
+        if (dogState.checkMedicalState("Castração"))
+        {
+            dogState.SetMedicalState("Castração");
+        }
+        else
+        {
+            castB.SetActive(false);
+        }
     }
 
     public void BotaoRemedios()
     {
-        dogState.SetMedicalState("Remédios");
+        if (dogState.checkMedicalState("Remédios"))
+        {
+            dogState.SetMedicalState("Remédios");
+        }
+        else
+        {
+            remB.SetActive(false);
+        }
     }
 
     public void BotaoCorrente()
     {
         Debug.Log("botao corrente");
         dogState.SetState("Acorrentado");
+    }
+
+    public void RestartScene()
+    {
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
     }
 }
