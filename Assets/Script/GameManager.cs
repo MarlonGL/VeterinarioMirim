@@ -72,13 +72,16 @@ public class GameManager : MonoBehaviour
             sprayCloud.SetActive(false);
         }
 
-        if (onMouseoverFood.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.FOOD && dogState.checkState("Fome"))
+        if (onMouseoverFood.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.FOOD)
         {
-
-            Debug.Log("Chegou no pote");
-            BotaoComida();
-
-
+            if (dogState.checkState("Fome"))
+            {
+                BotaoComida();
+            }
+            else
+            {
+                bowl.sprite = Resources.Load<Sprite>("Sprite/bowl");
+            }
         }
        
     }

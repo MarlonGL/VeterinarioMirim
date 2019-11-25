@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DogState : MonoBehaviour
 {    
@@ -16,13 +17,19 @@ public class DogState : MonoBehaviour
     public SpriteRenderer _chain;
 
     public FileSettings fileSettings;
-
-    public float happines = 0;
-
+    
     public Button chainB;
 
+    public GameObject results;
+    public TextMeshProUGUI finalText;
 
-    //GameObject _myBaloon;
+    public Image progressBar;
+    float maxPoints = 0f;
+    float points = 0f;
+
+
+    public float happines = 0f;
+
     bool wrongMove = false;
     int erros = 0;
     public GameObject baloonSprite;
@@ -32,16 +39,13 @@ public class DogState : MonoBehaviour
     List<State> _dogStates;
     List<State> _dogMedStates;
     List<State> _dogFixedMstates;
-
-    int _happiness = 0; //progressão do player
-
+    
     State sad = new State(2, "Triste");
     State hungry = new State(3, "Fome");
     State dirty = new State(1, "Sujo");
     State pulga = new State(1, "Pulga");
     State acorrentado = new State(1, "Acorrentado");
-
-
+    
     //estados médicos
     State castracao = new State(0, "Castração");
     //nao pode castrar sem resolvido os os estados ruins do cachorro
@@ -55,11 +59,17 @@ public class DogState : MonoBehaviour
 
     void Start()
     {
-       
-
         InicializarStatus();
+        progressBar.fillAmount = points / maxPoints;
+    }
+
+    void addPoints(float f)
+    {
+        points += f;
+        progressBar.fillAmount = points / maxPoints;
 
     }
+    
     void Update()
     {
         if(erros == 3)
@@ -95,8 +105,20 @@ public class DogState : MonoBehaviour
             }
             erros = 0;
         }
+        if(_dogStates.Count == 0) //&& _dogMedStates.Count == 0)
+        {
+            float f = (points * 100f) / maxPoints;
+            int score = (int)f;
+            finalText.text = "terminou com " + score + "%";
+            Invoke("ShowResults", 0.8f);
+            //Debug.Log("terminou com " + score + "%");
+            //fim da fase pontuacao etc
+        }
     }
-   
+    void ShowResults()
+    {
+        results.SetActive(true);
+    }
     public void InicializarStatus()
     {
         _myAnimator.SetBool("IdleSad", false);
@@ -123,6 +145,7 @@ public class DogState : MonoBehaviour
             _badStates[r].peso = pesito;
             _dogStates.Add(_badStates[r]);
             _badStates.Remove(_badStates[r]);
+            maxPoints += (float)pesito * 10f;
         }
         for (int i = 0; i < _dogStates.Count; i++)
         {
@@ -147,7 +170,7 @@ public class DogState : MonoBehaviour
         {
             PlayAnimation("Sad");
             _myAnimator.SetBool("IdleSad", true);
-            Debug.Log("Checou triste");
+            //Debug.Log("Checou triste");
         }
         else
         {
@@ -173,7 +196,7 @@ public class DogState : MonoBehaviour
         _medicalStates.Add(vacina);
         _medicalStates.Add(remedios);
 
-        int numBadStates = 2;
+        int numBadStates = 0;
         int r;
 
         for (int i = 0; i < numBadStates; i++)
@@ -237,7 +260,30 @@ public class DogState : MonoBehaviour
         }
         return false;
     }
+    public int getPesoState(string _state)
+    {
+        for (int i = 0; i < _dogStates.Count; i++)
+        {
+            if (_dogStates[i].nome == _state)
+            {
+                return _dogStates[i].peso;
+            }
+        }
+        return -1;
+    }
 
+    public int getBiggestPeso()
+    {
+        State temp = new State(0, "temp");
+        for (int i = 0; i < _dogStates.Count; i++)
+        {
+            if (_dogStates[i].peso > temp.peso)
+            {
+                temp = _dogStates[i];
+            }
+        }
+        return temp.peso;
+    }
     public bool checkMedicalState(string _state)
     {
         for (int i = 0; i < _dogMedStates.Count; i++)
@@ -290,6 +336,20 @@ public class DogState : MonoBehaviour
         }
         else if (checkState(p_state))
         {
+            int po = getPesoState(p_state);
+
+            if (checkMedicalState("Veterinário"))
+            {
+                addPoints(po * 3f);
+            }
+            else if(po < getBiggestPeso())
+            {
+                addPoints(po * 8f);
+            }
+            else
+            {
+                addPoints(po * 10f);
+            }
             PlayAnimation("Happy");
             RemoveState(p_state);
             if (p_state == "Sujo")
