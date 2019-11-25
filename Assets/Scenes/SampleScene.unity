@@ -1774,8 +1774,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 539629852}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0.014, y: -0.147, z: 0}
+  m_LocalScale: {x: 0.86615276, y: 0.7652699, z: 1}
   m_Children: []
   m_Father: {fileID: 1301738871}
   m_RootOrder: 1
@@ -4466,6 +4466,14 @@ MonoBehaviour:
   results: {fileID: 1890078910}
   finalText: {fileID: 1661557118}
   progressBar: {fileID: 1887015627}
+  sprites:
+  - {fileID: 2808044665386596529, guid: 633a379e2919de9489eee0fdaff5944a, type: 3}
+  - {fileID: 5901084123488178675, guid: f5ac1a6200310694590f406a5d524e45, type: 3}
+  - {fileID: -8745669439589023442, guid: 3a976bbd178511f45b7f51e98e4d1126, type: 3}
+  anims:
+  - {fileID: 9100000, guid: 8acb3a4f82926044ab793c010ce4d632, type: 2}
+  - {fileID: 9100000, guid: dccdf54d7ea03b044ab96fbf1a7a5f5b, type: 2}
+  - {fileID: 9100000, guid: d31b76cf9099f654a8b141daef9df2aa, type: 2}
   happines: 0
   baloonSprite: {fileID: 2009716012}
 --- !u!1 &1311565232
@@ -6342,8 +6350,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1838829641}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: -0, y: -0.114, z: 0}
+  m_LocalScale: {x: 1, y: 0.89492875, z: 1}
   m_Children: []
   m_Father: {fileID: 1301738871}
   m_RootOrder: 0

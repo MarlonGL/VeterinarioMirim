@@ -27,6 +27,9 @@ public class DogState : MonoBehaviour
     float maxPoints = 0f;
     float points = 0f;
 
+    public Sprite[] sprites;
+    public RuntimeAnimatorController[] anims;
+    int dogSprite;
 
     public float happines = 0f;
 
@@ -59,6 +62,10 @@ public class DogState : MonoBehaviour
 
     void Start()
     {
+        dogSprite = Random.Range(0, 3);
+        Debug.Log(dogSprite);
+        GetComponent<SpriteRenderer>().sprite = sprites[dogSprite];
+        GetComponent<Animator>().runtimeAnimatorController = anims[dogSprite];
         InicializarStatus();
         progressBar.fillAmount = points / maxPoints;
     }

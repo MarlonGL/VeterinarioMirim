@@ -45,7 +45,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: fdf30255ecff8af4aacc0206812a34fc, type: 2}
+  m_Motion: {fileID: 7400000, guid: 84a8da94a23596b458f5d6c817560a46, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -73,7 +73,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 95e42c530777c54478e98b142652b274, type: 2}
+  m_Motion: {fileID: 7400000, guid: 681b822598bdbd845a2c4c68a5953d1b, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -110,7 +110,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dog1Sprite_0
+  m_Name: Dog3
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: happyAnim
@@ -191,7 +191,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 60be5f6e71d89d14fbbd8ce21c328ee0, type: 2}
+  m_Motion: {fileID: 7400000, guid: ac0646e931cc3754b98f7fe04942ddcb, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -267,7 +267,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 4ea374d679ac6fb459b1a57548f23496, type: 2}
+  m_Motion: {fileID: 7400000, guid: 63d19b0fad288e64fbeaeb0027435d90, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
