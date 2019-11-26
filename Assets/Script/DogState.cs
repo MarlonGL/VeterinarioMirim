@@ -26,7 +26,7 @@ public class DogState : MonoBehaviour
     public Image progressBar;
     float maxPoints = 0f;
     float points = 0f;
-
+    int score = 0;
     public Sprite[] sprites;
     public RuntimeAnimatorController[] anims;
     int dogSprite;
@@ -59,6 +59,9 @@ public class DogState : MonoBehaviour
     State remedios = new State(0, "Remédios");
     //se doente
 
+    bool terminou = false;
+    public Image[] stars;
+    public Sprite star;
 
     void Start()
     {
@@ -68,6 +71,7 @@ public class DogState : MonoBehaviour
         GetComponent<Animator>().runtimeAnimatorController = anims[dogSprite];
         InicializarStatus();
         progressBar.fillAmount = points / maxPoints;
+        Debug.Log(Global.numBadStates + " " + Global.numMedicalStates);
     }
 
     void addPoints(float f)
@@ -112,12 +116,15 @@ public class DogState : MonoBehaviour
             }
             erros = 0;
         }
-        if(_dogStates.Count == 0) //&& _dogMedStates.Count == 0)
+        if(_dogStates.Count == 0 && _dogMedStates.Count == 0 && terminou == false)
         {
+            terminou = true;
             float f = (points * 100f) / maxPoints;
-            int score = (int)f;
-            finalText.text = "terminou com " + score + "%";
-            Invoke("ShowResults", 0.8f);
+            score = (int)f;
+            finalText.text = points.ToString() + " pontos";
+            Invoke("ShowResults", 2.2f);
+            Global.numBadStates += 1;
+            Global.numMedicalStates += 1;
             //Debug.Log("terminou com " + score + "%");
             //fim da fase pontuacao etc
         }
@@ -125,6 +132,25 @@ public class DogState : MonoBehaviour
     void ShowResults()
     {
         results.SetActive(true);
+        if(score >= 90)
+        {
+            stars[0].sprite = star;
+            stars[1].sprite = star;
+            stars[2].sprite = star;
+            Global.faseStar[Global.faseAtual] = 3;
+        }
+        else if (score >= 70)
+        {
+            stars[0].sprite = star;
+            stars[1].sprite = star;
+            Global.faseStar[Global.faseAtual] = 2;
+        }
+        else if(score >= 50)
+        {
+            stars[0].sprite = star;
+            Global.faseStar[Global.faseAtual] = 1;
+        }
+        Global.faseAtual += 1;
     }
     public void InicializarStatus()
     {
@@ -142,7 +168,9 @@ public class DogState : MonoBehaviour
         _badStates.Add(pulga);
         _badStates.Add(acorrentado);
 
-        int numBadStates = 3;
+        //int numBadStates = 3;
+        int numBadStates = Global.numBadStates;
+
         int r;
         int pesito;
         for (int i = 0; i < numBadStates; i++)
@@ -203,7 +231,9 @@ public class DogState : MonoBehaviour
         _medicalStates.Add(vacina);
         _medicalStates.Add(remedios);
 
-        int numBadStates = 0;
+        //int numBadStates = 0;
+        int numBadStates = Global.numMedicalStates;
+
         int r;
 
         for (int i = 0; i < numBadStates; i++)
@@ -212,6 +242,7 @@ public class DogState : MonoBehaviour
             _dogMedStates.Add(_medicalStates[r]);
             _dogFixedMstates.Add(_medicalStates[r]);
             _medicalStates.RemoveAt(r);
+            maxPoints += 20f;
         }
         for (int i = 0; i < _dogMedStates.Count; i++)
         {
@@ -382,8 +413,7 @@ public class DogState : MonoBehaviour
     {
         if (!checkMedicalState(p_state))
         {
-            //erros++
-            //desabilitar botao da acao
+            addPoints(-10f);
             Debug.Log("Nao tem essa necessidade");
         }
         else if(checkMedicalState(p_state))
@@ -393,6 +423,14 @@ public class DogState : MonoBehaviour
             fileSettings.SetLine(p);
             RemoveMedicalState(p_state);
             
+            if (p_state != "Veterinário" && checkMedicalState("Veterinário"))
+            {
+                addPoints(10f);
+            }
+            else
+            {
+                addPoints(20f);
+            }
         }
 
     }

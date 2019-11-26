@@ -175,7 +175,10 @@ public class GameManager : MonoBehaviour
         Debug.Log("botao corrente");
         dogState.SetState("Acorrentado");
     }
-
+    public void BotaoContinuar()
+    {
+        SceneManager.LoadScene("Map");
+    }
     public void RestartScene()
     {
         Scene scene = SceneManager.GetActiveScene();
