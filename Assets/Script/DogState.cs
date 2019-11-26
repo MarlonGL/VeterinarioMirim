@@ -59,15 +59,18 @@ public class DogState : MonoBehaviour
     State remedios = new State(0, "Remédios");
     //se doente
 
-    bool terminou = false;
+    public bool terminou = false;
     public Image[] stars;
     public Sprite star;
 
     public int sex = 0;
     public float age = 0f;
 
+    Musics mu;
+
     void Start()
     {
+        mu = GameObject.Find("Musicas").GetComponent<Musics>();
         dogSprite = Random.Range(0, 3);
         Debug.Log(dogSprite);
         GetComponent<SpriteRenderer>().sprite = sprites[dogSprite];
@@ -215,6 +218,7 @@ public class DogState : MonoBehaviour
         {
             PlayAnimation("Sad");
             _myAnimator.SetBool("IdleSad", true);
+            mu.PlaySad();
             //Debug.Log("Checou triste");
         }
         else
@@ -293,6 +297,7 @@ public class DogState : MonoBehaviour
     public void WrongMove()
     {
         PlayAnimation("Angry");
+        mu.PlayAngry();
         addPoints(maxPoints * -0.05f);
         BaloonOn();
         _myUrgentBaloon.GetComponent<Baloon>().setSpriteAngry();
@@ -466,5 +471,9 @@ public class DogState : MonoBehaviour
     void PlayAnimation(string p_name)
     {
         _myAnimator.Play(p_name);
+        if(p_name == "Happy")
+        {
+            mu.PlayHappy();
+        }
     }
 }

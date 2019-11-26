@@ -36,6 +36,7 @@ public class MenuMove : MonoBehaviour
     }
     public void Activate()
     {
+        
         if (!_clicked)
         {
             if (!_moved)

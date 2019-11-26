@@ -8,6 +8,7 @@ public class Musics : MonoBehaviour
     public AudioClip[] musicas = new AudioClip[3];
     public AudioClip musiMenu;
     public AudioClip buttonS;
+    public AudioClip sad, angry, happy;
     AudioSource audioS;
     Scene s;
     void Start()
@@ -47,13 +48,11 @@ public class Musics : MonoBehaviour
     }
     void Update()
     {
-        /*s = SceneManager.GetActiveScene();
-        if(s.name != "Menu")
+        Scene s = SceneManager.GetActiveScene();
+        if (!audioS.isPlaying && s.name != "Menu")
         {
-            audioS.loop = false;
-            audioS.clip = musicas[Random.Range(0, 3)];
-        }*/
-        //SceneManager.
+            Backgrounds();
+        }
     }
     /*private void OnLevelWasLoaded(int level)
     {
@@ -85,5 +84,17 @@ public class Musics : MonoBehaviour
     {
         audioS.clip = musiMenu;
         audioS.Play();
+    }
+    public void PlaySad()
+    {
+        audioS.PlayOneShot(sad, 1);
+    }
+    public void PlayAngry()
+    {
+        audioS.PlayOneShot(angry, 1);
+    }
+    public void PlayHappy()
+    {
+        audioS.PlayOneShot(happy, 1);
     }
 }

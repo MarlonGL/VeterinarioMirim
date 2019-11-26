@@ -13,6 +13,7 @@ public class Map : MonoBehaviour
     Vector3 s2 = new Vector3(10, 93, 0);
     Vector3 s3 = new Vector3(75, 73, 0);
     Musics mu;
+    public GameObject fim;
     void Start()
     {
         mu = GameObject.Find("Musicas").GetComponent<Musics>();
@@ -42,6 +43,10 @@ public class Map : MonoBehaviour
                 Instantiate(star, fases[i].transform.position + s3, new Quaternion(0, 0, 0, 0), fases[i].transform);
             }
         }
+        if(Global.faseAtual >= 4)
+        {
+            fim.SetActive(true);
+        }
     }
 
     // Update is called once per frame
@@ -53,13 +58,26 @@ public class Map : MonoBehaviour
     public void BotaoFase()
     {
         mu.PlayButtonSound();
+        Invoke("DogScene", 0.3f);
+    }
+    void DogScene()
+    {
         SceneManager.LoadScene("DogScene");
     }
-
     public void BotarVoltar()
     {
         mu.PlayButtonSound();
         mu.MainMenuSound();
         SceneManager.LoadScene("Menu");
+    }
+
+    public void BotaoFim()
+    {
+        mu.PlayButtonSound();
+        Invoke("EndScene", 0.3f);
+    }
+    void EndScene()
+    {
+        SceneManager.LoadScene("End");
     }
 }

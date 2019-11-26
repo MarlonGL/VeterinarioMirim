@@ -19,21 +19,26 @@ public class GameManager : MonoBehaviour
 
     //medical
     public GameObject vacB, castB, remB, vetB;
+    public GameObject medTab;
     bool mAtivos = false;
 
     bool showerWrong = false;
     bool playWrong = false;
     bool sprayWrong = false;
 
-    // Start is called before the first frame update
+    Musics mu;
     void Start()
     {
-        
+        mu = GameObject.Find("Musicas").GetComponent<Musics>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (dogState.terminou)
+        {
+            medTab.SetActive(false);
+        }
         if(onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.SHOWER && !showerWrong)
         {
             if (dogState.checkState("Sujo"))
@@ -147,6 +152,7 @@ public class GameManager : MonoBehaviour
 
     public void BotaoMedicalTab()
     {
+        mu.PlayButtonSound();
         mAtivos = !mAtivos;
         vacB.SetActive(mAtivos);
         castB.SetActive(mAtivos);
@@ -156,6 +162,7 @@ public class GameManager : MonoBehaviour
 
     public void BotaoVacina()
     {
+        mu.PlayButtonSound();
         if (dogState.checkMedicalState("Vacinação"))
         {
             dogState.SetMedicalState("Vacinação");
@@ -170,6 +177,7 @@ public class GameManager : MonoBehaviour
 
     public void BotaoVeterinario()
     {
+        mu.PlayButtonSound();
         if (dogState.checkMedicalState("Veterinário"))
         {
             dogState.SetMedicalState("Veterinário");
@@ -182,6 +190,7 @@ public class GameManager : MonoBehaviour
 
     public void BotaoCastracao()
     {
+        mu.PlayButtonSound();
         if (dogState.checkMedicalState("Castração"))
         {
             dogState.SetMedicalState("Castração");
@@ -194,6 +203,7 @@ public class GameManager : MonoBehaviour
 
     public void BotaoRemedios()
     {
+        mu.PlayButtonSound();
         if (dogState.checkMedicalState("Remédios"))
         {
             dogState.SetMedicalState("Remédios");
@@ -210,6 +220,11 @@ public class GameManager : MonoBehaviour
         dogState.SetState("Acorrentado");
     }
     public void BotaoContinuar()
+    {
+        mu.PlayButtonSound();
+        Invoke("loadMap", 0.3f);
+    }
+    void loadMap()
     {
         SceneManager.LoadScene("Map");
     }

@@ -23,7 +23,11 @@ public class FileSettings : MonoBehaviour
         }*/
         dogName.text = "Doggo";
         Debug.Log("Files " + age);
-        if(age >= 1)
+        if(age == 1)
+        {
+            ageT.text = age + " Ano";
+        }
+        else if(age > 1)
         {
             ageT.text = age + " Anos";
         }
