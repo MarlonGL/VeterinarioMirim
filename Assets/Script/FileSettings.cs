@@ -14,6 +14,7 @@ public class FileSettings : MonoBehaviour
     List<State> stateList;
     public TextMeshProUGUI ageT, sexT;
     int p;
+    List<string> nomes = new List<string>();
     public void InitializeFile(List<State> p_stateList, int s, float age)
     {
         stateList = p_stateList;
@@ -21,7 +22,18 @@ public class FileSettings : MonoBehaviour
         {
             stateToggle[i].interactable = false;
         }*/
-        dogName.text = "Doggo";
+        nomes.Add("Bolinha");
+        nomes.Add("Spike");
+        nomes.Add("Tremilico");
+        nomes.Add("Bolacha");
+        nomes.Add("Pitucho");
+        nomes.Add("Peludo");
+        nomes.Add("Mileni");
+        nomes.Add("Cacau");
+        nomes.Add("Corredor");
+        nomes.Add("Bel");
+        string n = nomes[Random.Range(0, 10)];
+        dogName.text = n;
         Debug.Log("Files " + age);
         if(age == 1)
         {

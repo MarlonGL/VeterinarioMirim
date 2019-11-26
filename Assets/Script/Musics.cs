@@ -8,7 +8,7 @@ public class Musics : MonoBehaviour
     public AudioClip[] musicas = new AudioClip[3];
     public AudioClip musiMenu;
     public AudioClip buttonS;
-    public AudioClip sad, angry, happy;
+    public AudioClip sad, angry, happy, chain;
     AudioSource audioS;
     Scene s;
     void Start()
@@ -96,5 +96,9 @@ public class Musics : MonoBehaviour
     public void PlayHappy()
     {
         audioS.PlayOneShot(happy, 1);
+    }
+    public void PlayChain()
+    {
+        audioS.PlayOneShot(chain, 1);
     }
 }

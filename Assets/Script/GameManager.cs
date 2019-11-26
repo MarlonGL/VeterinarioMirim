@@ -217,6 +217,7 @@ public class GameManager : MonoBehaviour
     public void BotaoCorrente()
     {
         Debug.Log("botao corrente");
+        mu.PlayChain();
         dogState.SetState("Acorrentado");
     }
     public void BotaoContinuar()

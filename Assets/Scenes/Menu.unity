@@ -2016,6 +2016,7 @@ MonoBehaviour:
   sad: {fileID: 8300000, guid: 5a3a47e288f76d64b8bf782d96fbc021, type: 3}
   angry: {fileID: 8300000, guid: b803eb16bcd361f4e978c1d83879991c, type: 3}
   happy: {fileID: 8300000, guid: fab5325640fc36f48bd688e1af6b91da, type: 3}
+  chain: {fileID: 8300000, guid: 875b133687c7a804e93b23ae74f5711d, type: 3}
 --- !u!1 &2112091647
 GameObject:
   m_ObjectHideFlags: 0
