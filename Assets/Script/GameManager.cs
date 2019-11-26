@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
     public GameObject vacB, castB, remB, vetB;
     bool mAtivos = false;
 
+    bool showerWrong = false;
+    bool playWrong = false;
+    bool sprayWrong = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,42 +34,72 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.SHOWER && dogState.checkState("Sujo"))
+        if(onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.SHOWER && !showerWrong)
         {
-            water.SetActive(true);
-            float __alpha = dogState._mudStain.color.a;
-            __alpha -= Time.deltaTime;
-            dogState._mudStain.color = new Color(dogState._mudStain.color.r, dogState._mudStain.color.g, dogState._mudStain.color.b, __alpha);
-            if(__alpha <= 0)
+            if (dogState.checkState("Sujo"))
             {
-                dogState.SetState("Sujo");
-                water.SetActive(false);
+                water.SetActive(true);
+                float __alpha = dogState._mudStain.color.a;
+                __alpha -= Time.deltaTime;
+                dogState._mudStain.color = new Color(dogState._mudStain.color.r, dogState._mudStain.color.g, dogState._mudStain.color.b, __alpha);
+                if (__alpha <= 0)
+                {
+                    dogState.SetState("Sujo");
+                    water.SetActive(false);
+                    showerWrong = true;
+                }
             }
+            else
+            {
+                dogState.WrongMove();
+                showerWrong = true;
+            }
+            
         }
         else
         {
             water.SetActive(false);
         }
-        if (onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.HAND && dogState.checkState("Triste"))
+        if (onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.HAND && !playWrong)
         {
-            dogState.happines += Time.deltaTime;
+            if (dogState.checkState("Triste"))
+            {
+                dogState.happines += Time.deltaTime;
+
+                if (dogState.happines >= 1)
+                {
+                    dogState.SetState("Triste");
+                    playWrong = true;
+                }
+            }
+            else
+            {
+                dogState.WrongMove();
+                playWrong = true;
+            }
             
-            if (dogState.happines >= 1)
-            {
-                dogState.SetState("Triste");
-            }
         }
-        if (onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.SPRAY && dogState.checkState("Pulga"))
+        if (onMouseOverShower.onMouseOver && DragHandler.itemBeingDragged != null && DragHandler.itemBeingDragged.GetComponent<DragHandler>().type == ItemType.SPRAY && !sprayWrong)
         {
-            sprayCloud.SetActive(true);
-            float __alpha = dogState._fleaStain.color.a;
-            __alpha -= Time.deltaTime;
-            dogState._fleaStain.color = new Color(dogState._fleaStain.color.r, dogState._fleaStain.color.g, dogState._fleaStain.color.b, __alpha);
-            if (__alpha <= 0)
+            if (dogState.checkState("Pulga"))
             {
-                dogState.SetState("Pulga");
-                sprayCloud.SetActive(false);
+                sprayCloud.SetActive(true);
+                float __alpha = dogState._fleaStain.color.a;
+                __alpha -= Time.deltaTime;
+                dogState._fleaStain.color = new Color(dogState._fleaStain.color.r, dogState._fleaStain.color.g, dogState._fleaStain.color.b, __alpha);
+                if (__alpha <= 0)
+                {
+                    dogState.SetState("Pulga");
+                    sprayCloud.SetActive(false);
+                    sprayWrong = true;
+                }
             }
+            else
+            {
+                dogState.WrongMove();
+                sprayWrong = true;
+            }
+            
         }
         else
         {

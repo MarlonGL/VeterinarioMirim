@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class FileSettings : MonoBehaviour
 {
@@ -10,8 +12,9 @@ public class FileSettings : MonoBehaviour
     public List<Toggle> stateToggle;
     public Image[] lines;
     List<State> stateList;
+    public TextMeshProUGUI ageT, sexT;
     int p;
-    public void InitializeFile(List<State> p_stateList)
+    public void InitializeFile(List<State> p_stateList, int s, float age)
     {
         stateList = p_stateList;
         /*for(int i = 0; i < stateToggle.Count; i++)
@@ -19,6 +22,25 @@ public class FileSettings : MonoBehaviour
             stateToggle[i].interactable = false;
         }*/
         dogName.text = "Doggo";
+        Debug.Log("Files " + age);
+        if(age >= 1)
+        {
+            ageT.text = age + " Anos";
+        }
+        else
+        {
+            //age = age % 1;
+            string t = System.String.Format("{0:.0}", age) + " Meses";
+            ageT.text = t;
+        }
+        if (s == 0)
+        {
+            sexT.text = "Macho";
+        }
+        else
+        {
+            sexT.text = "Fêmea";
+        }
         for (int i = 0; i < stateList.Count; i++)
         {
             stateText[i].gameObject.SetActive(true);

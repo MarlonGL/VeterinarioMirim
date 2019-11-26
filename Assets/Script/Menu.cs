@@ -5,10 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
-    // Start is called before the first frame update
+    Musics mu;
+    public AudioClip buttonS;
+    AudioSource audioS;
     void Start()
     {
-        
+        mu = GameObject.Find("Musicas").GetComponent<Musics>();
+        audioS = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -18,6 +21,14 @@ public class Menu : MonoBehaviour
     }
 
     public void BotaoJogar()
+    {
+        //audioS.PlayOneShot(buttonS, 1);
+        mu.PlayButtonSound();
+        mu.Backgrounds();
+        Invoke("loadMap", 0.3f);
+    }
+
+    void loadMap()
     {
         SceneManager.LoadScene("Map");
     }

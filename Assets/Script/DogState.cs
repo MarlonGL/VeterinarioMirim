@@ -63,15 +63,25 @@ public class DogState : MonoBehaviour
     public Image[] stars;
     public Sprite star;
 
+    public int sex = 0;
+    public float age = 0f;
+
     void Start()
     {
         dogSprite = Random.Range(0, 3);
         Debug.Log(dogSprite);
         GetComponent<SpriteRenderer>().sprite = sprites[dogSprite];
         GetComponent<Animator>().runtimeAnimatorController = anims[dogSprite];
-        InicializarStatus();
         progressBar.fillAmount = points / maxPoints;
         Debug.Log(Global.numBadStates + " " + Global.numMedicalStates);
+        sex = Random.Range(0, 2);
+        age = Random.Range(0.2f, 4f);
+        if(age >= 1)
+        {
+            age = (int)age;
+        }
+        Debug.Log("idade " + age);
+        InicializarStatus();
     }
 
     void addPoints(float f)
@@ -116,7 +126,7 @@ public class DogState : MonoBehaviour
             }
             erros = 0;
         }
-        if(_dogStates.Count == 0 && _dogMedStates.Count == 0 && terminou == false)
+        if(_dogStates.Count == 0 && terminou == false)
         {
             terminou = true;
             float f = (points * 100f) / maxPoints;
@@ -249,7 +259,7 @@ public class DogState : MonoBehaviour
             Debug.Log(_dogMedStates[i].nome + " medicStats");
         }
         fileSettings.resetFile();
-        fileSettings.InitializeFile(_dogMedStates);
+        fileSettings.InitializeFile(_dogMedStates, sex, age);
     }
 
     void showHungry()
@@ -280,9 +290,10 @@ public class DogState : MonoBehaviour
         BaloonOn();
         Invoke("ResertWrongMove", 2f);
     }
-    void WrongMove()
+    public void WrongMove()
     {
         PlayAnimation("Angry");
+        addPoints(maxPoints * -0.05f);
         BaloonOn();
         _myUrgentBaloon.GetComponent<Baloon>().setSpriteAngry();
         Invoke("ResertWrongMove", 1.2f);
@@ -378,7 +389,7 @@ public class DogState : MonoBehaviour
 
             if (checkMedicalState("Veterinário"))
             {
-                addPoints(po * 3f);
+                addPoints(po * 6f);
             }
             else if(po < getBiggestPeso())
             {
