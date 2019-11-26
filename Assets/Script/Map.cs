@@ -52,4 +52,9 @@ public class Map : MonoBehaviour
     {
         SceneManager.LoadScene("DogScene");
     }
+
+    public void BotarVoltar()
+    {
+        SceneManager.LoadScene("Menu");
+    }
 }
