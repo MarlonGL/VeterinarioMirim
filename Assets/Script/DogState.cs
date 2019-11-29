@@ -83,7 +83,10 @@ public class DogState : MonoBehaviour
         {
             age = (int)age;
         }
-        Debug.Log("idade " + age);
+        else if(age >=0.95 && age <1)
+        {
+            age = 1;
+        }
         InicializarStatus();
     }
 
@@ -240,6 +243,7 @@ public class DogState : MonoBehaviour
         _dogMedStates = new List<State>();
         _dogFixedMstates = new List<State>();
         //stados adicionados
+        if(age >= 0.6)
         _medicalStates.Add(castracao);
         _medicalStates.Add(veterinario);
         _medicalStates.Add(vacina);
