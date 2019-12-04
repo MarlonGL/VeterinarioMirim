@@ -79,13 +79,14 @@ public class DogState : MonoBehaviour
         Debug.Log(Global.numBadStates + " " + Global.numMedicalStates);
         sex = Random.Range(0, 2);
         age = Random.Range(0.2f, 4f);
-        if(age >= 1)
+
+        if (age >= 1f)
         {
             age = (int)age;
         }
-        else if(age >=0.95 && age <1)
+        else if(age >=0.95f && age <1f)
         {
-            age = 1;
+            age = 0.9f;
         }
         InicializarStatus();
     }
@@ -243,7 +244,7 @@ public class DogState : MonoBehaviour
         _dogMedStates = new List<State>();
         _dogFixedMstates = new List<State>();
         //stados adicionados
-        if(age >= 0.6)
+        if(age >= 0.6f)
         _medicalStates.Add(castracao);
         _medicalStates.Add(veterinario);
         _medicalStates.Add(vacina);

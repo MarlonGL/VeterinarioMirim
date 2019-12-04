@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Globalization;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -23,19 +24,20 @@ public class FileSettings : MonoBehaviour
             stateToggle[i].interactable = false;
         }*/
         Debug.Log("Files " + age);
-        if(age == 1)
+        if(age == 1f)
         {
             ageT.text = age + " Ano";
         }
-        else if(age >1)
+        else if(age >1f)
         {
             ageT.text = age + " Anos";
         }
-        else if(age <1)
+        else if(age <1f)
         {
             //age = age % 1; 
-            string t = age.ToString("0.#");
-            string[] x = t.Split(',');
+            string t = age.ToString("0.#", CultureInfo.InvariantCulture);
+            //Debug.Log("culture: " + t);
+            string[] x = t.Split('.');
            t = x[1] + " Meses";
             ageT.text = t;
         }
